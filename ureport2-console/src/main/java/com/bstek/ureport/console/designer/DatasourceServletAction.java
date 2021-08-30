@@ -150,7 +150,10 @@ public class DatasourceServletAction extends RenderPageServletAction {
 				schema = metaData.getUserName();
 			}
 			List<Map<String,String>> tables = new ArrayList<Map<String,String>>();
-			rs = metaData.getTables(null, schema, "%", new String[] { "TABLE","VIEW" });
+			// catalog为空会获取该数据库实例下的所有表
+			// rs = metaData.getTables(null, schema, "%", new String[] { "TABLE","VIEW" });
+			// 指定获取catalog下的所有表
+			rs = metaData.getTables(conn.getCatalog(), schema, "%", new String[] { "TABLE","VIEW" });
 			while (rs.next()) {
 				Map<String,String> table = new HashMap<String,String>();
 				table.put("name",rs.getString("TABLE_NAME"));
